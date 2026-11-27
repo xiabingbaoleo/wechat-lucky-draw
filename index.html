@@ -754,6 +754,98 @@
     .upload-copy span { display: block; margin-top: 5px; color: rgba(255, 248, 231, 0.32); font-size: 10px; line-height: 1.55; }
     .upload-copy small { display: block; margin-top: 8px; color: rgba(246, 206, 119, 0.5); font-size: 10px; }
 
+    .sound-picker {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .sound-choice {
+      min-height: 60px;
+      padding: 9px 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 248, 231, 0.68);
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .sound-choice:hover {
+      border-color: rgba(242, 202, 114, 0.32);
+      background: rgba(242, 202, 114, 0.045);
+      transform: translateY(-1px);
+    }
+    .sound-choice.active {
+      color: #fff3cf;
+      border-color: rgba(255, 214, 122, 0.62);
+      background: linear-gradient(145deg, rgba(242, 202, 114, 0.14), rgba(242, 202, 114, 0.035));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 22px rgba(0, 0, 0, 0.15);
+    }
+    .sound-choice-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 225, 150, 0.72);
+      border: 1px solid rgba(255, 221, 141, 0.16);
+      border-radius: 10px;
+      background: rgba(242, 202, 114, 0.065);
+      font-family: "Songti SC", "STSong", serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .sound-choice.active .sound-choice-icon {
+      color: #201605;
+      border-color: transparent;
+      background: linear-gradient(135deg, #fff1ba, #d7a044);
+    }
+    .sound-choice-copy { min-width: 0; flex: 1; }
+    .sound-choice-copy strong { display: block; font-size: 11px; font-weight: 650; letter-spacing: 0.03em; }
+    .sound-choice-copy small { display: block; margin-top: 3px; overflow: hidden; color: rgba(255, 248, 231, 0.3); font-size: 9px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+    .sound-choice.active .sound-choice-copy small { color: rgba(255, 239, 199, 0.46); }
+    .sound-preview-mark {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 248, 231, 0.28);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 9px;
+    }
+    .sound-choice.active .sound-preview-mark { color: #1d1405; background: var(--gold); }
+    .sound-preview-mark svg { width: 10px; height: 10px; margin-left: 1px; }
+
+    .volume-panel {
+      margin-top: 9px;
+      padding: 12px 13px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.075);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .volume-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(255, 248, 231, 0.48);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+    }
+    .volume-head strong { color: var(--gold-bright); font-family: "DIN Alternate", sans-serif; font-size: 12px; }
+    .volume-range {
+      width: 100%;
+      height: 18px;
+      margin: 4px 0 1px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+    .volume-note { color: rgba(255, 248, 231, 0.22); font-size: 9px; line-height: 1.5; }
+
     .modal-foot {
       padding: 18px clamp(24px, 3vw, 42px);
       display: flex;
@@ -865,6 +957,7 @@
       .history-names { grid-template-columns: repeat(2, 1fr); }
       .upload-zone { align-items: flex-start; }
       .upload-thumb { width: 84px; height: 60px; }
+      .sound-picker { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1014,6 +1107,42 @@
                 <button class="secondary-btn" id="removeBackgroundBtn" type="button">移除背景图</button>
               </div>
             </div>
+
+            <div class="field">
+              <div class="field-label">抽奖背景音效 <span class="counter">点击选项即可试听</span></div>
+              <div class="sound-picker" id="soundPicker">
+                <button class="sound-choice" type="button" data-theme="festival" aria-pressed="false">
+                  <span class="sound-choice-icon">鼓</span>
+                  <span class="sound-choice-copy"><strong>庆典鼓点</strong><small>厚重鼓声 · 大气压场</small></span>
+                  <span class="sound-preview-mark"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8v8.4L9.7 6 3 1.8z"/></svg></span>
+                </button>
+                <button class="sound-choice" type="button" data-theme="countdown" aria-pressed="false">
+                  <span class="sound-choice-icon">滴</span>
+                  <span class="sound-choice-copy"><strong>紧张倒计时</strong><small>心跳脉动 · 悬念拉满</small></span>
+                  <span class="sound-preview-mark"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8v8.4L9.7 6 3 1.8z"/></svg></span>
+                </button>
+                <button class="sound-choice" type="button" data-theme="electronic" aria-pressed="false">
+                  <span class="sound-choice-icon">电</span>
+                  <span class="sound-choice-copy"><strong>电子律动</strong><small>科技合成 · 节奏明快</small></span>
+                  <span class="sound-preview-mark"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8v8.4L9.7 6 3 1.8z"/></svg></span>
+                </button>
+                <button class="sound-choice" type="button" data-theme="bell" aria-pressed="false">
+                  <span class="sound-choice-icon">钟</span>
+                  <span class="sound-choice-copy"><strong>典雅钟声</strong><small>清透钟琴 · 高级沉稳</small></span>
+                  <span class="sound-preview-mark"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8v8.4L9.7 6 3 1.8z"/></svg></span>
+                </button>
+                <button class="sound-choice" type="button" data-theme="party" aria-pressed="false">
+                  <span class="sound-choice-icon">悦</span>
+                  <span class="sound-choice-copy"><strong>轻快派对</strong><small>活泼明亮 · 轻松欢快</small></span>
+                  <span class="sound-preview-mark"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8v8.4L9.7 6 3 1.8z"/></svg></span>
+                </button>
+              </div>
+              <div class="volume-panel">
+                <div class="volume-head"><span>现场音量</span><strong id="soundVolumeValue">100%</strong></div>
+                <input class="volume-range" id="soundVolume" type="range" min="50" max="120" step="5" value="100" aria-label="抽奖音效音量" />
+                <div class="volume-note">建议现场先试听并调到 90%–110%，再开始正式抽奖。</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1097,6 +1226,39 @@
         '姚书言','蔡景宁','卢星禾','余予安','钟清和','汪南星','金知意','殷景初','石书宁','谢予安'
       ];
 
+      const ROLL_PROFILES = {
+        festival: {
+          lowWave: 'sine', lowFreq: 54, lowEnd: 68, lowGain: 0.2,
+          pulseWave: 'sawtooth', pulseFreq: 88, pulseEnd: 112, pulseGain: 0.018,
+          lfoFreq: 10.5, lfoGain: 0.034, filterFreq: 260,
+          noiseGain: 0.105, noiseStart: 720, noiseEnd: 2350, mixGain: 0.82
+        },
+        countdown: {
+          lowWave: 'sine', lowFreq: 44, lowEnd: 50, lowGain: 0.28,
+          pulseWave: 'square', pulseFreq: 42, pulseEnd: 58, pulseGain: 0.03,
+          lfoFreq: 2.25, lfoGain: 0.035, filterFreq: 170,
+          noiseGain: 0.025, noiseStart: 240, noiseEnd: 820, mixGain: 0.9
+        },
+        electronic: {
+          lowWave: 'sawtooth', lowFreq: 55, lowEnd: 82, lowGain: 0.12,
+          pulseWave: 'square', pulseFreq: 132, pulseEnd: 176, pulseGain: 0.035,
+          lfoFreq: 7.5, lfoGain: 0.02, filterFreq: 470,
+          noiseGain: 0.045, noiseStart: 900, noiseEnd: 3000, mixGain: 0.8
+        },
+        bell: {
+          lowWave: 'sine', lowFreq: 220, lowEnd: 262, lowGain: 0.055,
+          pulseWave: 'sine', pulseFreq: 330, pulseEnd: 440, pulseGain: 0.04,
+          lfoFreq: 4.2, lfoGain: 0.012, filterFreq: 1200,
+          noiseGain: 0.02, noiseStart: 1200, noiseEnd: 2600, mixGain: 0.92
+        },
+        party: {
+          lowWave: 'triangle', lowFreq: 72, lowEnd: 96, lowGain: 0.18,
+          pulseWave: 'square', pulseFreq: 156, pulseEnd: 234, pulseGain: 0.026,
+          lfoFreq: 6.2, lfoGain: 0.04, filterFreq: 760,
+          noiseGain: 0.06, noiseStart: 900, noiseEnd: 3200, mixGain: 0.84
+        }
+      };
+
       const state = {
         participants: [],
         drawn: [],
@@ -1104,6 +1266,8 @@
         title: DEFAULT_TITLE,
         sound: true,
         audioVersion: 2,
+        soundTheme: 'festival',
+        soundVolume: 1,
         backgroundUrl: '',
         spinning: false,
         currentWinners: []
@@ -1123,6 +1287,7 @@
         namesFile: $('namesFile'), uploadZone: $('uploadZone'), uploadThumb: $('uploadThumb'),
         uploadTitle: $('uploadTitle'), uploadMeta: $('uploadMeta'), backgroundFile: $('backgroundFile'),
         removeBackgroundBtn: $('removeBackgroundBtn'), resetProgressBtn: $('resetProgressBtn'),
+        soundPicker: $('soundPicker'), soundVolume: $('soundVolume'), soundVolumeValue: $('soundVolumeValue'),
         saveSetupBtn: $('saveSetupBtn'), saveSetupText: $('saveSetupText'),
         historyOverlay: $('historyOverlay'), closeHistoryBtn: $('closeHistoryBtn'),
         historySub: $('historySub'), historyList: $('historyList'), historyEmpty: $('historyEmpty'),
@@ -1139,6 +1304,8 @@
       let audioMaster = null;
       let rollAudio = null;
       let tickCount = 0;
+      let previewTimers = [];
+      let previewStopTimer = 0;
       let rollTimer = 0;
       let rollEndTimer = 0;
       let revealTimers = [];
@@ -1158,6 +1325,8 @@
             title: state.title,
             sound: state.sound,
             audioVersion: 2,
+            soundTheme: state.soundTheme,
+            soundVolume: state.soundVolume,
             backgroundName: pendingBackgroundName || state.backgroundName || ''
           }));
         } catch (error) {
@@ -1174,6 +1343,9 @@
         state.title = typeof saved.title === 'string' && saved.title.trim() ? saved.title.trim() : DEFAULT_TITLE;
         state.sound = saved.audioVersion === 2 ? Boolean(saved.sound) : true;
         state.audioVersion = 2;
+        state.soundTheme = ROLL_PROFILES[saved.soundTheme] ? saved.soundTheme : 'festival';
+        const savedVolume = Number(saved.soundVolume);
+        state.soundVolume = Number.isFinite(savedVolume) ? Math.min(1.2, Math.max(0.5, savedVolume)) : 1;
         state.backgroundName = typeof saved.backgroundName === 'string' ? saved.backgroundName : '';
       }
 
@@ -1311,6 +1483,7 @@
         namesDirty = false;
         updateNamesCounter();
         renderUploadPreview(state.backgroundUrl, state.backgroundName);
+        renderSoundOptions();
         pendingBackgroundBlob = null;
         pendingBackgroundName = '';
         removePendingBackground = false;
@@ -1320,6 +1493,7 @@
 
       function closeSetup() {
         if (!state.participants.length) return;
+        stopSoundPreview();
         setOverlay(els.setupOverlay, false);
       }
 
@@ -1502,18 +1676,19 @@
         const ctx = unlockAudio();
         if (!ctx || !audioMaster) return;
         stopRollAudio(0.03);
+        const profile = ROLL_PROFILES[state.soundTheme] || ROLL_PROFILES.festival;
         const now = ctx.currentTime;
         const mix = ctx.createGain();
         mix.gain.setValueAtTime(0.0001, now);
-        mix.gain.exponentialRampToValueAtTime(0.82, now + 0.18);
+        mix.gain.exponentialRampToValueAtTime(profile.mixGain, now + 0.18);
         mix.connect(audioMaster);
 
         const low = ctx.createOscillator();
         const lowGain = ctx.createGain();
-        low.type = 'sine';
-        low.frequency.setValueAtTime(54, now);
-        low.frequency.linearRampToValueAtTime(68, now + ROLL_DURATION / 1000);
-        lowGain.gain.value = 0.2;
+        low.type = profile.lowWave;
+        low.frequency.setValueAtTime(profile.lowFreq, now);
+        low.frequency.linearRampToValueAtTime(profile.lowEnd, now + ROLL_DURATION / 1000);
+        lowGain.gain.value = profile.lowGain;
         low.connect(lowGain);
         lowGain.connect(mix);
 
@@ -1522,15 +1697,15 @@
         const pulseGain = ctx.createGain();
         const lfo = ctx.createOscillator();
         const lfoGain = ctx.createGain();
-        pulse.type = 'sawtooth';
-        pulse.frequency.setValueAtTime(88, now);
-        pulse.frequency.linearRampToValueAtTime(112, now + ROLL_DURATION / 1000);
+        pulse.type = profile.pulseWave;
+        pulse.frequency.setValueAtTime(profile.pulseFreq, now);
+        pulse.frequency.linearRampToValueAtTime(profile.pulseEnd, now + ROLL_DURATION / 1000);
         pulseFilter.type = 'lowpass';
-        pulseFilter.frequency.value = 260;
-        pulseGain.gain.value = 0.018;
+        pulseFilter.frequency.value = profile.filterFreq;
+        pulseGain.gain.value = profile.pulseGain;
         lfo.type = 'square';
-        lfo.frequency.value = 10.5;
-        lfoGain.gain.value = 0.034;
+        lfo.frequency.value = profile.lfoFreq;
+        lfoGain.gain.value = profile.lfoGain;
         lfo.connect(lfoGain);
         lfoGain.connect(pulseGain.gain);
         pulse.connect(pulseFilter);
@@ -1547,9 +1722,9 @@
         noise.loop = true;
         noiseFilter.type = 'bandpass';
         noiseFilter.Q.value = 0.65;
-        noiseFilter.frequency.setValueAtTime(720, now);
-        noiseFilter.frequency.exponentialRampToValueAtTime(2350, now + ROLL_DURATION / 1000);
-        noiseGain.gain.value = 0.105;
+        noiseFilter.frequency.setValueAtTime(profile.noiseStart, now);
+        noiseFilter.frequency.exponentialRampToValueAtTime(profile.noiseEnd, now + ROLL_DURATION / 1000);
+        noiseGain.gain.value = profile.noiseGain;
         noise.connect(noiseFilter);
         noiseFilter.connect(noiseGain);
         noiseGain.connect(mix);
@@ -1582,18 +1757,124 @@
         if (now - lastTick < 88) return;
         lastTick = now;
         tickCount += 1;
-        const frequency = 680 + (tickCount % 5) * 34 + Math.random() * 55;
-        playTone(frequency, 0.055, 0.085, 'triangle');
-        if (tickCount % 4 === 0) playNoiseBurst(0.045, 0.055, 0, 2800);
+        const step = tickCount % 8;
+        if (state.soundTheme === 'countdown') {
+          const notes = [329.63, 392, 440, 493.88, 587.33, 659.25, 783.99, 880];
+          playTone(notes[step], 0.085, 0.115, 'sine');
+          if (step === 0 || step === 4) playTone(54, 0.14, 0.16, 'sine');
+        } else if (state.soundTheme === 'electronic') {
+          const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 659.25];
+          playTone(notes[step % notes.length], 0.065, 0.075, 'square');
+          if (step % 2 === 0) playNoiseBurst(0.04, 0.045, 0, 3200);
+        } else if (state.soundTheme === 'bell') {
+          const notes = [1046.5, 1318.51, 1567.98, 2093, 1567.98, 1318.51];
+          playTone(notes[step % notes.length], 0.12, 0.055, 'sine');
+        } else if (state.soundTheme === 'party') {
+          const notes = [523.25, 659.25, 783.99, 1046.5, 880, 659.25];
+          playTone(notes[step % notes.length], 0.07, 0.09, 'triangle');
+          if (step % 4 === 0) playNoiseBurst(0.055, 0.04, 0, 2600);
+        } else {
+          const frequency = 680 + (tickCount % 5) * 34 + Math.random() * 55;
+          playTone(frequency, 0.055, 0.085, 'triangle');
+          if (tickCount % 4 === 0) playNoiseBurst(0.045, 0.055, 0, 2800);
+        }
+      }
+
+      function playRevealSound(index) {
+        if (state.soundTheme === 'countdown') {
+          playTone(86 + index * 4, 0.16, 0.15, 'sine');
+          playTone(560 + index * 36, 0.15, 0.075, 'square');
+        } else if (state.soundTheme === 'electronic') {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          playTone(notes[index % notes.length], 0.16, 0.085, 'square');
+          playNoiseBurst(0.07, 0.04, 0, 3600);
+        } else if (state.soundTheme === 'bell') {
+          playTone(1046.5 + index * 47, 0.3, 0.075, 'sine');
+          playTone(523.25 + index * 23, 0.22, 0.035, 'sine');
+        } else if (state.soundTheme === 'party') {
+          const notes = [659.25, 783.99, 987.77, 1318.51];
+          playTone(notes[index % notes.length], 0.14, 0.095, 'triangle');
+        } else {
+          playTone(760 + index * 26, 0.16, 0.075, 'triangle');
+          playNoiseBurst(0.09, 0.045, 0, 2400 + index * 90);
+        }
       }
 
       function playWinSound() {
-        playTone(72, 0.72, 0.24, 'sine');
-        playTone(144, 0.34, 0.075, 'triangle', 0.03);
-        playNoiseBurst(0.55, 0.16, 0.02, 1700);
-        [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((freq, i) => {
-          playTone(freq, 0.68, 0.105, 'sine', 0.18 + i * 0.075);
+        if (state.soundTheme === 'countdown') {
+          playTone(58, 0.75, 0.2, 'sine');
+          [392, 523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+            playTone(freq, 0.6, 0.11, 'sine', 0.08 + i * 0.09);
+          });
+          playNoiseBurst(0.42, 0.11, 0, 1600);
+        } else if (state.soundTheme === 'electronic') {
+          playTone(82, 0.55, 0.16, 'sawtooth');
+          [523.25, 659.25, 783.99, 1046.5, 1318.51, 1046.5].forEach((freq, i) => {
+            playTone(freq, 0.42, 0.085, 'square', 0.05 + i * 0.065);
+          });
+          playNoiseBurst(0.32, 0.09, 0.04, 3200);
+        } else if (state.soundTheme === 'bell') {
+          playTone(261.63, 0.7, 0.055, 'sine');
+          [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((freq, i) => {
+            playTone(freq, 0.85, 0.085, 'sine', 0.12 + i * 0.1);
+          });
+          playNoiseBurst(0.26, 0.035, 0.04, 2400);
+        } else if (state.soundTheme === 'party') {
+          [523.25, 659.25, 783.99, 987.77, 1318.51, 1567.98].forEach((freq, i) => {
+            playTone(freq, 0.38, 0.095, 'triangle', i * 0.07);
+          });
+          playNoiseBurst(0.3, 0.11, 0.02, 2900);
+        } else {
+          playTone(72, 0.72, 0.24, 'sine');
+          playTone(144, 0.34, 0.075, 'triangle', 0.03);
+          playNoiseBurst(0.55, 0.16, 0.02, 1700);
+          [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((freq, i) => {
+            playTone(freq, 0.68, 0.105, 'sine', 0.18 + i * 0.075);
+          });
+        }
+      }
+
+      function renderSoundOptions() {
+        els.soundPicker.querySelectorAll('.sound-choice').forEach(button => {
+          const active = button.dataset.theme === state.soundTheme;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', active ? 'true' : 'false');
         });
+        const volumePercent = Math.round(state.soundVolume * 100);
+        els.soundVolume.value = String(volumePercent);
+        els.soundVolumeValue.textContent = `${volumePercent}%`;
+      }
+
+      function updateMasterVolume() {
+        if (!audioContext || !audioMaster) return;
+        const target = 0.96 * state.soundVolume;
+        audioMaster.gain.cancelScheduledValues(audioContext.currentTime);
+        audioMaster.gain.setTargetAtTime(target, audioContext.currentTime, 0.025);
+      }
+
+      function stopSoundPreview() {
+        previewTimers.forEach(timer => window.clearTimeout(timer));
+        previewTimers = [];
+        window.clearTimeout(previewStopTimer);
+        previewStopTimer = 0;
+        stopRollAudio(0.05);
+      }
+
+      function previewSound(theme) {
+        stopSoundPreview();
+        state.soundTheme = ROLL_PROFILES[theme] ? theme : 'festival';
+        state.sound = true;
+        saveState();
+        updateSoundButton();
+        renderSoundOptions();
+        startRollAudio();
+        for (let i = 0; i < 7; i += 1) {
+          previewTimers.push(window.setTimeout(playTick, i * 145));
+        }
+        previewStopTimer = window.setTimeout(() => {
+          stopRollAudio(0.2);
+          playWinSound();
+        }, 1080);
       }
 
       function resetCardStates() {
@@ -1617,6 +1898,7 @@
         const winners = sampleUnique(pool, CARD_COUNT);
         state.currentWinners = winners;
         state.spinning = true;
+        stopSoundPreview();
         revealTimers.forEach(clearTimeout);
         revealTimers = [];
         resetCardStates();
@@ -1668,8 +1950,7 @@
             nameEl.textContent = winners[i];
             card.classList.add('locked');
             fitNameCards(winners);
-            playTone(760 + i * 26, 0.16, 0.075, 'triangle');
-            playNoiseBurst(0.09, 0.045, 0, 2400 + i * 90);
+            playRevealSound(i);
           }, i * REVEAL_STAGGER);
           revealTimers.push(timer);
         });
@@ -1876,6 +2157,7 @@
         saveState();
         renderStats();
         renderHistory();
+        stopSoundPreview();
         setOverlay(els.setupOverlay, false);
         showToast(`已载入 ${names.length} 位参与者`);
       }
@@ -1928,6 +2210,7 @@
           playTone(660, 0.12, 0.12, 'sine');
           showToast('音效已开启');
         } else {
+          stopSoundPreview();
           stopRollAudio(0.08);
           showToast('音效已关闭');
         }
@@ -2002,6 +2285,17 @@
         renderUploadPreview('', '');
         showToast('背景图将在保存设置后移除');
       });
+
+      els.soundPicker.querySelectorAll('.sound-choice').forEach(button => {
+        button.addEventListener('click', () => previewSound(button.dataset.theme));
+      });
+      els.soundVolume.addEventListener('input', () => {
+        state.soundVolume = Math.min(1.2, Math.max(0.5, Number(els.soundVolume.value) / 100));
+        els.soundVolumeValue.textContent = `${Math.round(state.soundVolume * 100)}%`;
+        updateMasterVolume();
+        saveState();
+      });
+      els.soundVolume.addEventListener('change', () => playTone(660, 0.1, 0.11, 'sine'));
 
       els.settingsBtn.addEventListener('click', openSetup);
       els.closeSetupBtn.addEventListener('click', closeSetup);
